@@ -26,6 +26,8 @@ func init() {
 }
 
 func initConfig() {
+	viper.SetDefault("host", "localhost:25639")
+
 	home, err := os.UserHomeDir()
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
