@@ -8,17 +8,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var (
-	nickname     string
-	muteInput    bool
-	unmuteInput  bool
-	muteOutput   bool
-	unmuteOutput bool
-	away         bool
-	back         bool
-	message      string
-)
-
 var userCmd = &cobra.Command{
 	Use:   "user",
 	Short: "Update your client's personal settings",
@@ -42,26 +31,69 @@ var userCmd = &cobra.Command{
 
 		query := []string{"clientupdate"}
 
+		nickname, err := cmd.Flags().GetString("nickname")
+		if err != nil {
+			return err
+		}
 		if len(nickname) > 0 {
 			query = append(query, fmt.Sprintf("client_nickname=%v", nickname))
+		}
+
+
+		muteInput, err := cmd.Flags().GetBool("mute-input")
+		if err != nil {
+			return err
 		}
 		if muteInput {
 			query = append(query, "client_input_muted=1")
 		}
+
+		unmuteInput, err := cmd.Flags().GetBool("unmute-input")
+		if err != nil {
+			return err
+		}
 		if unmuteInput {
 			query = append(query, "client_input_muted=0")
+		}
+
+
+		muteOutput, err := cmd.Flags().GetBool("mute-output")
+		if err != nil {
+			return err
 		}
 		if muteOutput {
 			query = append(query, "client_output_muted=1")
 		}
+
+		unmuteOutput, err := cmd.Flags().GetBool("unmute-output")
+		if err != nil {
+			return err
+		}
 		if unmuteOutput {
 			query = append(query, "client_output_muted=0")
+		}
+
+
+		away, err := cmd.Flags().GetBool("away")
+		if err != nil {
+			return err
 		}
 		if away {
 			query = append(query, "client_away=1")
 		}
+
+		back, err := cmd.Flags().GetBool("back")
+		if err != nil {
+			return err
+		}
 		if back {
 			query = append(query, "client_away=0")
+		}
+
+
+		message, err := cmd.Flags().GetString("message")
+		if err != nil {
+			return err
 		}
 		if len(message) > 0 {
 			query = append(query, fmt.Sprintf("client_away_message=%v", strings.ReplaceAll(message, " ", "\\s")))
@@ -78,19 +110,19 @@ var userCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(userCmd)
 
-	userCmd.Flags().StringVarP(&nickname, "nickname", "n", "", "Set a new nickname")
+	userCmd.Flags().StringP("nickname", "n", "", "Set a new nickname")
 
-	userCmd.Flags().BoolVar(&muteInput, "mute-input", false, "Mute your input device")
-	userCmd.Flags().BoolVar(&unmuteInput, "unmute-input", false, "Unmute your input device")
+	userCmd.Flags().Bool("mute-input", false, "Mute your input device")
+	userCmd.Flags().Bool("unmute-input", false, "Unmute your input device")
 	userCmd.MarkFlagsMutuallyExclusive("mute-input", "unmute-input")
 
-	userCmd.Flags().BoolVar(&muteOutput, "mute-output", false, "Mute your output device")
-	userCmd.Flags().BoolVar(&unmuteOutput, "unmute-output", false, "Unmute your output device")
+	userCmd.Flags().Bool("mute-output", false, "Mute your output device")
+	userCmd.Flags().Bool("unmute-output", false, "Unmute your output device")
 	userCmd.MarkFlagsMutuallyExclusive("mute-output", "unmute-output")
 
-	userCmd.Flags().BoolVar(&away, "away", false, "Set away status")
-	userCmd.Flags().BoolVar(&back, "back", false, "Unset your away status")
+	userCmd.Flags().Bool("away", false, "Set away status")
+	userCmd.Flags().Bool("back", false, "Unset your away status")
 	userCmd.MarkFlagsMutuallyExclusive("away", "back")
 
-	userCmd.Flags().StringVarP(&message, "message", "m", "", "Set what message to display when away")
+	userCmd.Flags().StringP("message", "m", "", "Set what message to display when away")
 }
