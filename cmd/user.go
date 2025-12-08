@@ -31,10 +31,10 @@ var userCmd = &cobra.Command{
 
   Set yourself as away with a message:
     ts3 user --away -m brb`,
-	Run: func(cmd *cobra.Command, args []string) {
+	RunE: func(cmd *cobra.Command, args []string) error {
 		client, err := client_query.Dial()
 		if err != nil {
-			cmd.PrintErrln(err)
+			return err
 		}
 		defer client.Quit()
 
@@ -70,6 +70,8 @@ var userCmd = &cobra.Command{
 		client.Do(strings.Join(query, " "))
 
 		cmd.Println("done")
+
+		return nil
 	},
 }
 
