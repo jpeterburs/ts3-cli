@@ -27,7 +27,9 @@ Set yourself as away with a message:
 		}
 		defer client.Quit()
 
-		client.Authenticate()
+		if err := client.Authenticate(); err != nil {
+			return err
+		}
 
 		query := []string{"clientupdate"}
 
@@ -71,7 +73,9 @@ Set yourself as away with a message:
 			query = append(query, fmt.Sprintf("client_away_message=%v", strings.ReplaceAll(message, " ", "\\s")))
 		}
 
-		client.Do(strings.Join(query, " "))
+		if err := client.Do(strings.Join(query, " ")); err != nil {
+			return err
+		}
 
 		cmd.Println("done")
 
