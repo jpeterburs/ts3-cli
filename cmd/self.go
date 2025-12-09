@@ -31,66 +31,42 @@ Set yourself as away with a message:
 
 		query := []string{"clientupdate"}
 
-		nickname, err := cmd.Flags().GetString("nickname")
-		if err != nil {
-			return err
-		}
+		nickname, _ := cmd.Flags().GetString("nickname")
 		if len(nickname) > 0 {
 			query = append(query, fmt.Sprintf("client_nickname=%v", nickname))
 		}
 
-		muteInput, err := cmd.Flags().GetBool("mute-input")
-		if err != nil {
-			return err
-		}
+		muteInput, _ := cmd.Flags().GetBool("mute-input")
 		if muteInput {
 			query = append(query, "client_input_muted=1")
 		}
 
-		unmuteInput, err := cmd.Flags().GetBool("unmute-input")
-		if err != nil {
-			return err
-		}
+		unmuteInput, _ := cmd.Flags().GetBool("unmute-input")
 		if unmuteInput {
 			query = append(query, "client_input_muted=0")
 		}
 
-		muteOutput, err := cmd.Flags().GetBool("mute-output")
-		if err != nil {
-			return err
-		}
+		muteOutput, _ := cmd.Flags().GetBool("mute-output")
 		if muteOutput {
 			query = append(query, "client_output_muted=1")
 		}
 
-		unmuteOutput, err := cmd.Flags().GetBool("unmute-output")
-		if err != nil {
-			return err
-		}
+		unmuteOutput, _ := cmd.Flags().GetBool("unmute-output")
 		if unmuteOutput {
 			query = append(query, "client_output_muted=0")
 		}
 
-		away, err := cmd.Flags().GetBool("away")
-		if err != nil {
-			return err
-		}
+		away, _ := cmd.Flags().GetBool("away")
 		if away {
 			query = append(query, "client_away=1")
 		}
 
-		back, err := cmd.Flags().GetBool("back")
-		if err != nil {
-			return err
-		}
+		back, _ := cmd.Flags().GetBool("back")
 		if back {
 			query = append(query, "client_away=0")
 		}
 
-		message, err := cmd.Flags().GetString("message")
-		if err != nil {
-			return err
-		}
+		message, _ := cmd.Flags().GetString("message")
 		if len(message) > 0 {
 			query = append(query, fmt.Sprintf("client_away_message=%v", strings.ReplaceAll(message, " ", "\\s")))
 		}
