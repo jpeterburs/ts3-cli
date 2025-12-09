@@ -33,7 +33,7 @@ Set yourself as away with a message:
 
 		nickname, _ := cmd.Flags().GetString("nickname")
 		if len(nickname) > 0 {
-			query = append(query, fmt.Sprintf("client_nickname=%v", nickname))
+			query = append(query, fmt.Sprintf("client_nickname=%v", strings.ReplaceAll(nickname, " ", "\\s")))
 		}
 
 		muteInput, _ := cmd.Flags().GetBool("mute-input")
