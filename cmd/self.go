@@ -8,18 +8,18 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var userCmd = &cobra.Command{
-	Use:   "user",
+var selfCmd = &cobra.Command{
+	Use:   "self",
 	Short: "Update your client's personal settings",
 	Long:  "Update your client's personal settings, such as changing your nickname or toggling your input and output device",
-	Example: `  Set your nickname:
-    ts3 user --nickname 'John TeamSpeak'
+	Example: `Set your nickname:
+  ts3 self --nickname 'John TeamSpeak'
 
-  Mute yourself (input and output):
-    ts3 user --mute-input --mute-output
+Mute yourself (input and output):
+  ts3 self --mute-input --mute-output
 
-  Set yourself as away with a message:
-    ts3 user --away -m brb`,
+Set yourself as away with a message:
+  ts3 self --away -m brb`,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		client, err := client_query.Dial()
 		if err != nil {
@@ -39,7 +39,6 @@ var userCmd = &cobra.Command{
 			query = append(query, fmt.Sprintf("client_nickname=%v", nickname))
 		}
 
-
 		muteInput, err := cmd.Flags().GetBool("mute-input")
 		if err != nil {
 			return err
@@ -55,7 +54,6 @@ var userCmd = &cobra.Command{
 		if unmuteInput {
 			query = append(query, "client_input_muted=0")
 		}
-
 
 		muteOutput, err := cmd.Flags().GetBool("mute-output")
 		if err != nil {
@@ -73,7 +71,6 @@ var userCmd = &cobra.Command{
 			query = append(query, "client_output_muted=0")
 		}
 
-
 		away, err := cmd.Flags().GetBool("away")
 		if err != nil {
 			return err
@@ -89,7 +86,6 @@ var userCmd = &cobra.Command{
 		if back {
 			query = append(query, "client_away=0")
 		}
-
 
 		message, err := cmd.Flags().GetString("message")
 		if err != nil {
@@ -108,21 +104,21 @@ var userCmd = &cobra.Command{
 }
 
 func init() {
-	rootCmd.AddCommand(userCmd)
+	rootCmd.AddCommand(selfCmd)
 
-	userCmd.Flags().StringP("nickname", "n", "", "Set a new nickname")
+	selfCmd.Flags().StringP("nickname", "n", "", "Set a new nickname")
 
-	userCmd.Flags().Bool("mute-input", false, "Mute your input device")
-	userCmd.Flags().Bool("unmute-input", false, "Unmute your input device")
-	userCmd.MarkFlagsMutuallyExclusive("mute-input", "unmute-input")
+	selfCmd.Flags().Bool("mute-input", false, "Mute your input device")
+	selfCmd.Flags().Bool("unmute-input", false, "Unmute your input device")
+	selfCmd.MarkFlagsMutuallyExclusive("mute-input", "unmute-input")
 
-	userCmd.Flags().Bool("mute-output", false, "Mute your output device")
-	userCmd.Flags().Bool("unmute-output", false, "Unmute your output device")
-	userCmd.MarkFlagsMutuallyExclusive("mute-output", "unmute-output")
+	selfCmd.Flags().Bool("mute-output", false, "Mute your output device")
+	selfCmd.Flags().Bool("unmute-output", false, "Unmute your output device")
+	selfCmd.MarkFlagsMutuallyExclusive("mute-output", "unmute-output")
 
-	userCmd.Flags().Bool("away", false, "Set away status")
-	userCmd.Flags().Bool("back", false, "Unset your away status")
-	userCmd.MarkFlagsMutuallyExclusive("away", "back")
+	selfCmd.Flags().Bool("away", false, "Set away status")
+	selfCmd.Flags().Bool("back", false, "Unset your away status")
+	selfCmd.MarkFlagsMutuallyExclusive("away", "back")
 
-	userCmd.Flags().StringP("message", "m", "", "Set what message to display when away")
+	selfCmd.Flags().StringP("message", "m", "", "Set what message to display when away")
 }
