@@ -33,7 +33,7 @@ func Dial() (*ClientQuery, error) {
 }
 
 func (c *ClientQuery) Authenticate() error {
-	if !viper.IsSet("apikey") && viper.GetString("apikey") == "" {
+	if !viper.IsSet("apikey") || viper.GetString("apikey") == "" {
 		return fmt.Errorf("apikey is not set or empty")
 	}
 
