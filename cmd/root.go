@@ -35,7 +35,6 @@ func initConfig() {
 	}
 
 	viper.AddConfigPath(home)
-	viper.AddConfigPath(".")
 	viper.SetConfigType("yaml")
 	viper.SetConfigName(".ts3-cli")
 
