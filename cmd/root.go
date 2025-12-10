@@ -8,8 +8,11 @@ import (
 	"github.com/spf13/viper"
 )
 
+var version = "indev"
+
 var rootCmd = &cobra.Command{
 	Use:   "ts3",
+	Version: version,
 	Short: "",
 	Long:  ``,
 	SilenceUsage: true,
