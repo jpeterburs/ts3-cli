@@ -12,6 +12,7 @@ var rootCmd = &cobra.Command{
 	Use:   "ts3",
 	Short: "",
 	Long:  ``,
+	SilenceUsage: true,
 }
 
 func Execute() {
