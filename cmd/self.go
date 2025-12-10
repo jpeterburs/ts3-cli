@@ -9,9 +9,10 @@ import (
 )
 
 var selfCmd = &cobra.Command{
-	Use:   "self",
-	Short: "Update your client's personal settings",
-	Long:  "Update your client's personal settings, such as changing your nickname or toggling your input and output device",
+	Use:                   "self [-n nickname] [--mute-input | --unmute-input] [--mute-output | --unmute-output] [--away | --back] [-m message]",
+	DisableFlagsInUseLine: true,
+	Short:                 "Update your client's personal settings",
+	Long:                  "Update your client's personal settings, such as changing your nickname or toggling your input and output device",
 	Example: `Set your nickname:
   ts3 self --nickname 'John TeamSpeak'
 
