@@ -3,7 +3,9 @@ package cmd
 import (
 	"fmt"
 	"strings"
+	"time"
 
+	"github.com/briandowns/spinner"
 	client_query "github.com/jpeterburs/ts3-cli/internal"
 	"github.com/spf13/cobra"
 )
@@ -74,13 +76,20 @@ Set yourself as away with a message:
 			query = append(query, fmt.Sprintf("client_away_message=%v", strings.ReplaceAll(message, " ", "\\s")))
 		}
 
-		if err := client.Do(strings.Join(query, " ")); err != nil {
-			return err
+		s := spinner.New(spinner.CharSets[26], 500*time.Millisecond)
+		s.Prefix = "Updating self "
+
+		s.Start()
+		err = client.Do(strings.Join(query, " "))
+		if err != nil {
+			s.FinalMSG = "Update failed\n"
+		} else {
+
+			s.FinalMSG = "Updated self\n"
 		}
+		s.Stop()
 
-		cmd.Println("done")
-
-		return nil
+		return err
 	},
 }
 
